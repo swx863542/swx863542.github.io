@@ -1,18 +1,630 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hello Github Pages</title>
-  <style>
-    .container {
-      margin-top: 300px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>宝宝每日作息表</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+        
+        body {
+            background-color: #fff5f5;
+            color: #333333;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding: 20px;
+            font-size: 24px;  /* 原来16px的1.5倍 */
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            border: 2px solid #ffd6e7;
+            padding: 25px;  /* 适当减小内边距 */
+            text-align: left;
+        }
+        
+        th {
+            background-color: #ff69b4;
+            color: #ffffff;
+            font-size: 1.8em;  /* 原来1.2em的1.5倍 */
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .time {
+            width: 15%;
+            color: #ff1493;
+            font-weight: bold;
+            font-size: 1.8em;  /* 原来1.2em的1.5倍 */
+        }
+        
+        .activity {
+            width: 25%;
+            color: #ff4081;
+            font-size: 1.8em;  /* 原来1.2em的1.5倍 */
+            font-weight: 600;
+            position: relative;
+            padding-left: 45px;  /* 为图标留出空间 */
+        }
+        
+        .activity::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .details {
+            width: 60%;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 1.65em;  /* 原来1.1em的1.5倍 */
+            position: relative;
+            overflow: hidden;  /* 为所有details添加相对定位 */
+        }
+        
+        h2 {
+            color: #333;
+            margin: 30px 0;
+            padding: 20px;
+            text-align: center;
+            font-size: 2.7em;  /* 原来1.8em的1.5倍 */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            position: relative;
+            background: none;
+        }
+
+        h2 span {
+            position: relative;
+            display: inline-block;
+            padding: 0 15px;
+        }
+
+        h2 > span::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -5px;
+            height: 3px;
+            background: #ff69b4;
+            transform: rotate(-1deg);
+        }
+
+        h2 > span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -10px;
+            height: 3px;
+            background: #ffb7d5;
+            transform: rotate(1deg);
+        }
+
+        h2 span span {
+            color: #e31b23;  /* 使用标准红心颜色 */
+            padding: 0;
+        }
+
+        h3 {
+            color: #ff1493;
+            margin: 25px 0 15px 0;
+            padding: 12px;
+            background-color: #fff0f5;
+            border-radius: 15px;
+            font-size: 2.1em;  /* 原来1.4em的1.5倍 */
+            text-align: center;
+            border: 2px solid #ffb7d5;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            padding: 40px;  /* 适当减小内边距 */
+            border-radius: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        tr:nth-child(even) {
+            background-color: #fff0f5;
+        }
+
+        tr:hover {
+            background-color: #ffe4e1;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        /* 修改时间图标 */
+        .time::before {
+            content: '';
+            display: inline-block;
+            width: 40px;  /* 增大尺寸 */
+            height: 40px;
+            vertical-align: middle;
+            margin-right: 8px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        /* 修改时钟SVG模板，移除所有文字 */
+        .time[data-time]::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFB7D5" stroke="%23333" stroke-width="3"/><circle cx="50" cy="50" r="35" fill="%23FFF"/><path d="M35,10 C35,0 65,0 65,10 L65,20 L35,20 Z" fill="%23FFB7D5" stroke="%23333" stroke-width="2"/><circle cx="35" cy="10" r="4" fill="%23333"/><circle cx="65" cy="10" r="4" fill="%23333"/><circle cx="50" cy="50" r="3" fill="%23333"/><path d="M50,50 L50,30" stroke="%23333" stroke-width="3" stroke-linecap="round"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="3" stroke-linecap="round"/></svg>');
+            width: 45px;
+            height: 45px;
+        }
+
+        /* 为每个时间点设置对应的指针角度 */
+        .time[data-time^="06"]::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFB7D5" stroke="%23333" stroke-width="3"/><circle cx="50" cy="50" r="35" fill="%23FFF"/><path d="M35,10 C35,0 65,0 65,10 L65,20 L35,20 Z" fill="%23FFB7D5" stroke="%23333" stroke-width="2"/><circle cx="35" cy="10" r="4" fill="%23333"/><circle cx="65" cy="10" r="4" fill="%23333"/><circle cx="50" cy="50" r="3" fill="%23333"/><path d="M50,50 L50,30" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(180, 50, 50)"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(0, 50, 50)"/></svg>');
+        }
+
+        .time[data-time^="09"]::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFB7D5" stroke="%23333" stroke-width="3"/><circle cx="50" cy="50" r="35" fill="%23FFF"/><path d="M35,10 C35,0 65,0 65,10 L65,20 L35,20 Z" fill="%23FFB7D5" stroke="%23333" stroke-width="2"/><circle cx="35" cy="10" r="4" fill="%23333"/><circle cx="65" cy="10" r="4" fill="%23333"/><circle cx="50" cy="50" r="3" fill="%23333"/><path d="M50,50 L50,30" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(270, 50, 50)"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(90, 50, 50)"/></svg>');
+        }
+
+        /* 为上午/下午活动选项设置特殊样式 */
+        .time[data-time="上午活动选项"]::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFB7D5" stroke="%23333" stroke-width="3"/><circle cx="50" cy="50" r="35" fill="%23FFF"/><path d="M35,10 C35,0 65,0 65,10 L65,20 L35,20 Z" fill="%23FFB7D5" stroke="%23333" stroke-width="2"/><circle cx="35" cy="10" r="4" fill="%23333"/><circle cx="65" cy="10" r="4" fill="%23333"/><circle cx="50" cy="50" r="3" fill="%23333"/><path d="M50,50 L50,30" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(315, 50, 50)"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(135, 50, 50)"/></svg>');
+        }
+
+        .time[data-time="下午活动选项"]::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFB7D5" stroke="%23333" stroke-width="3"/><circle cx="50" cy="50" r="35" fill="%23FFF"/><path d="M35,10 C35,0 65,0 65,10 L65,20 L35,20 Z" fill="%23FFB7D5" stroke="%23333" stroke-width="2"/><circle cx="35" cy="10" r="4" fill="%23333"/><circle cx="65" cy="10" r="4" fill="%23333"/><circle cx="50" cy="50" r="3" fill="%23333"/><path d="M50,50 L50,30" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(45, 50, 50)"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="3" stroke-linecap="round" transform="rotate(225, 50, 50)"/></svg>');
+        }
+
+        /* 添加猫耳朵动画效果 */
+        @keyframes earWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .time:hover::before {
+            animation: earWiggle 1s ease-in-out infinite;
+        }
+
+        /* 添加可爱的边框装饰 */
+        .section {
+            border: 3px solid #ffb7d5;
+            position: relative;
+        }
+
+        .section::before {
+            content: "✨";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #fff5f5;
+            padding: 0 10px;
+            font-size: 1.5em;
+        }
+
+        /* 表格圆角和边框美化 */
+        table tr:first-child th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        table tr:first-child th:last-child {
+            border-top-right-radius: 15px;
+        }
+
+        table tr:last-child td:first-child {
+            border-bottom-left-radius: 15px;
+        }
+
+        table tr:last-child td:last-child {
+            border-bottom-right-radius: 15px;
+        }
+
+        /* 添加更多可爱的图标 */
+        .details br + :not(br)::before {
+            content: "🌈 ";
+        }
+
+        /* 添加可爱的背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.jsdelivr.net/gh/spirit1431007/cdn@1.6/img/sakura.png');
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 添加小动物装饰 */
+        .section::after {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            width: 100px;
+            height: 100px;
+            background: url('https://cdn-icons-png.flaticon.com/512/1864/1864514.png') no-repeat center/contain;
+            transform: translateY(-50%);
+        }
+
+        /* 为不同时段添加不同的图标 */
+        h3[contains(text(), "早晨")]::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: url('https://cdn-icons-png.flaticon.com/512/3892/3892928.png') no-repeat center/contain;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        h3[contains(text(), "上午")]::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3892/3892940.png');
+        }
+
+        h3[contains(text(), "午休")]::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3892/3892934.png');
+        }
+
+        h3[contains(text(), "下午")]::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3892/3892937.png');
+        }
+
+        h3[contains(text(), "晚上")]::before {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3892/3892931.png');
+        }
+
+        /* 添加动画效果 */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .section::after {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* 为表格添加可爱的图标背景 */
+        td.activity {
+            position: relative;
+        }
+
+        td.activity[contains(text(), "早餐")]::after,
+        td.activity[contains(text(), "午餐")]::after,
+        td.activity[contains(text(), "晚餐")]::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: url('https://cdn-icons-png.flaticon.com/512/3892/3892943.png') no-repeat center/contain;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
+
+        /* 添加页面装饰元素 */
+        .corner-decoration {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            pointer-events: none;
+            z-index: -1;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+        }
+
+        .corner-decoration.top-left {
+            top: -20px;
+            left: -20px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M40,40 C40,80 80,120 120,120 C160,120 180,80 180,40 C180,0 140,0 100,0 C60,0 40,0 40,40" fill="%23FFB7D5"/><circle cx="80" cy="60" r="8" fill="%23FFF"/><circle cx="140" cy="60" r="8" fill="%23FFF"/><path d="M90,80 Q110,90 130,80" stroke="%23FFF" stroke-width="4" fill="none"/></svg>');
+            transform: rotate(-45deg);
+        }
+
+        .corner-decoration.top-right {
+            top: -20px;
+            right: -20px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M40,40 Q60,100 120,120 Q180,140 180,80 Q180,20 120,20 Q60,20 40,40" fill="%23FFD6E7"/><circle cx="90" cy="70" r="10" fill="%23FFB7D5"/><circle cx="150" cy="70" r="10" fill="%23FFB7D5"/><path d="M100,90 Q120,100 140,90" stroke="%23FFB7D5" stroke-width="4" fill="none"/></svg>');
+            transform: rotate(45deg);
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: -20px;
+            left: -20px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M20,20 Q40,80 100,100 Q160,120 180,60 Q200,0 140,0 Q80,0 20,20" fill="%23FFE4E1"/><circle cx="70" cy="50" r="12" fill="%23FFB7D5"/><circle cx="130" cy="50" r="12" fill="%23FFB7D5"/><path d="M80,70 Q100,85 120,70" stroke="%23FFB7D5" stroke-width="5" fill="none"/></svg>');
+            transform: rotate(-135deg);
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M20,20 Q60,100 120,120 Q180,140 180,80 Q180,20 120,20 Q60,20 20,20" fill="%23FFF0F5"/><circle cx="80" cy="60" r="15" fill="%23FFB7D5"/><circle cx="140" cy="60" r="15" fill="%23FFB7D5"/><path d="M90,80 Q110,95 130,80" stroke="%23FFB7D5" stroke-width="6" fill="none"/></svg>');
+            transform: rotate(135deg);
+        }
+
+        /* 添加悬停动画效果 */
+        .corner-decoration {
+            transition: transform 0.3s ease;
+        }
+
+        .corner-decoration:hover {
+            transform: scale(1.1);
+        }
+
+        /* 添加呼吸动画 */
+        @keyframes breathe {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.6; }
+        }
+
+        .corner-decoration {
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        /* 修改滑滑梯活动图标的样式 */
+        .slide-icon {
+            position: relative;
+            padding-right: 150px;  /* 改为右边距 */
+        }
+
+        .slide-icon::before {
+            content: '';
+            position: absolute;
+            right: 10px;  /* 改为right定位 */
+            left: auto;   /* 移除左侧定位 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('img/slide.jpg');
+            transition: transform 0.3s ease;
+        }
+
+        /* 添加悬停效果 */
+        .slide-icon::before:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* 修改积木图标样式 */
+        .blocks-icon {
+            position: relative;
+            padding-right: 150px;  /* 改为右边距 */
+        }
+
+        .blocks-icon::before {
+            content: '';
+            position: absolute;
+            right: 10px;  /* 改为right定位 */
+            left: auto;   /* 移除左侧定位 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('img/building_block.jpg');
+            transition: transform 0.3s ease;
+        }
+
+        /* 添加悬停效果 */
+        .blocks-icon::before:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+    </style>
 </head>
 <body>
-  <h1 class="container">Hello Github Pages</h1>
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+    <div class="section">
+        <h2><span>玲玲的开心每一天 🌈</span></h2>
+        <h3>早晨 (6:30-9:00)</h3>
+        <table>
+            <tr>
+                <th>时间</th>
+                <th>活动</th>
+                <th>详细内容</th>
+            </tr>
+            <tr>
+                <td class="time" data-time="06:30">06:30</td>
+                <td class="activity" data-type="起床">起床</td>
+                <td class="details">自然醒来</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="06:45">06:45</td>
+                <td class="activity" data-type="护理">晨间护理</td>
+                <td class="details">洗漱</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="07:00">07:00</td>
+                <td class="activity" data-type="餐饮">早餐</td>
+                <td class="details">
+                    建议：粥、蛋、牛奶
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="07:30">07:30</td>
+                <td class="activity" data-type="户外">户外活动</td>
+                <td class="details">
+                    - 晒太阳15-20分钟<br>
+                    - 简单的体能活动（走路、轻跑）
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="08:30">08:30</td>
+                <td class="activity" data-type="户外">回家整理</td>
+                <td class="details">自由活动时间</td>
+            </tr>
+        </table>
+
+        <h3>上午 (9:00-12:00)</h3>
+        <table>
+            <tr>
+                <td class="time" data-time="09:00">09:00</td>
+                <td class="activity" data-type="学习">早教活动时段</td>
+                <td class="details blocks-icon">
+                    - 积木/拼图（15分钟）<br>
+                    - 绘本阅读（10分钟）<br>
+                    - 音乐律动（15分钟）
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="10:00">10:00</td>
+                <td class="activity" data-type="餐饮">营养补充</td>
+                <td class="details">零食</td>
+            </tr>
+            <tr>
+
+
+                <td class="time" data-time="10:15">10:15</td>
+                <td class="activity" data-type="户外">户外活动</td>
+                <td class="details">
+                    - 公园玩耍<br>
+                    - 与小朋友互动
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="11:30">11:30</td>
+                <td class="activity" data-type="餐饮">午餐</td>
+                <td class="details">建议：米饭、蛋白质、蔬菜</td>
+            </tr>
+        </table>
+
+        <h3>午休 (12:00-15:00)</h3>
+        <table>
+            <tr>
+                <td class="time" data-time="12:00">12:00</td>
+                <td class="activity" data-type="休息">午休准备</td>
+                <td class="details">
+                    - 如厕/换尿布<br>
+                    - 轻柔音乐
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="12:15">12:15</td>
+                <td class="activity" data-type="休息">午睡</td>
+                <td class="details">自然醒来</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="14:45">14:45</td>
+                <td class="activity" data-type="起床">起床整理</td>
+                <td class="details">整理仪容</td>
+            </tr>
+        </table>
+
+        <h3>下午 (15:00-18:00)</h3>
+        <table>
+            <tr>
+                <td class="time" data-time="15:00">15:00</td>
+                <td class="activity" data-type="餐饮">下午茶</td>
+                <td class="details">牛奶/酸奶+点心</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="15:30">15:30</td>
+                <td class="activity" data-type="学习">感统训练</td>
+                <td class="details">
+                    - 手指训练<br>
+                    - 平衡训练
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="16:00">16:00</td>
+                <td class="activity" data-type="户外">户外活动</td>
+                <td class="details slide-icon">
+                    - 滑滑梯、秋千等<br>
+                    - 沙池玩耍（注意卫生）
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="17:30">17:30</td>
+                <td class="activity" data-type="餐饮">晚餐</td>
+                <td class="details">建议：粥/面、蔬菜、适量肉类</td>
+            </tr>
+        </table>
+
+        <h3>晚上 (18:00-20:00)</h3>
+        <table>
+            <tr>
+                <td class="time" data-time="18:00">18:00</td>
+                <td class="activity" data-type="游戏">自由玩耍时间</td>
+                <td class="details">亲子互动</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="18:30">18:30</td>
+                <td class="activity" data-type="游戏">亲子活动</td>
+                <td class="details">
+                    - 简单舞蹈<br>
+                    - 音乐游戏
+                </td>
+            </tr>
+            <tr>
+                <td class="time" data-time="19:00">19:00</td>
+                <td class="activity" data-type="洗澡">洗澡时间</td>
+                <td class="details">清洁身体</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="19:30">19:30</td>
+                <td class="activity" data-type="阅读">晚安故事</td>
+                <td class="details">亲子阅读</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="20:00">20:00</td>
+                <td class="activity" data-type="休息">晚安</td>
+                <td class="details">准时入睡</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2><span>周末和玲玲一起玩耍 <span style="color: #ff0000;">❤</span></span></h2>
+        <table>
+            <tr>
+                <th>时段</th>
+                <th>活动选项</th>
+                <th>备注</th>
+            </tr>
+            <tr>
+                <td class="time" data-time="上午活动选项">上午活动</td>
+                <td class="activity" data-type="户外">
+                    - 亲子游泳（1次/周）<br>
+                    - 早教课程（1次/周）<br>
+                    - 公园野餐<br>
+                    - 动物园/植物园参观
+                </td>
+                <td class="details">根据天气和身体状况选择</td>
+            </tr>
+            <tr>
+                <td class="time" data-time="下午活动选项">下午活动</td>
+                <td class="activity" data-type="学习">
+                    - 音乐律动课<br>
+                    - 婴幼儿体适能<br>
+                    - 亲子瑜伽<br>
+                    - 手工制作
+                </td>
+                <td class="details">选择1-2项进行</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

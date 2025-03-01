@@ -1,0 +1,113 @@
+{
+  "welcome": "Welcome",
+  "todo": {
+    "input": {
+      "placeholder": "Enter a todo item"
+    },
+    "add": "Add"
+  },
+  "books": {
+    "title": "Title",
+    "author": "Author",
+    "category": "Category",
+    "description": "Description",
+    "rating": "Rating",
+    "publish_date": "Publish Date",
+    "pages": "Pages",
+    "word_count": "Word Count",
+    "content": "Content"
+  },
+  "booklist": {
+    "all": "All",
+    "literature": "Literature",
+    "science_fiction": "Science Fiction",
+    "biography": "Biography",
+    "search_placeholder": "Search by title or author",
+    "rating": "Rating",
+    "mystery": "Mystery",
+    "romance": "Romance",
+    "classic": "Classic",
+    "history": "History",
+    "drama": "Drama",
+    "dystopian": "Dystopian",
+    "satire": "Satire",
+    "all_countries": "All Countries",
+    "country_cn": "China",
+    "country_us": "United States",
+    "country_uk": "United Kingdom",
+    "country_jp": "Japan",
+    "country_co": "Colombia",
+    "country_il": "Israel",
+    "country_af": "Afghanistan"
+  },
+  "common": {
+    "more": "View More",
+    "hot": "Hot Books",
+    "new": "New Books"
+  },
+  "header": {
+    "search_placeholder": "Search by title or author",
+    "login": "Login",
+    "home": "Home",
+    "books": "Books",
+    "shelf": "Bookshelf",
+    "mine": "Mine"
+  },
+  "shelf": {
+    "continue_reading": "Continue Reading",
+    "completed": "Completed",
+    "not_started": "Not Started"
+  },
+  "mine": {
+    "joined": "Joined Date",
+    "total_books": "Total Books",
+    "completed_books": "Completed",
+    "reading_books": "Reading",
+    "reading_time": "Reading Time",
+    "reading_stats": "Reading Statistics",
+    "favorite_category": "Favorite Category",
+    "average_daily_reading": "Daily Average",
+    "completion_rate": "Completion Rate",
+    "reading_preference": "Reading Preference Analysis",
+    "recent_reading_stats": "Recent Reading Statistics",
+    "category_distribution": "Category Distribution",
+    "reading_words": "Reading Words"
+  },
+  "login": {
+    "title": "Login",
+    "username_placeholder": "Username",
+    "password_placeholder": "Password",
+    "username_required": "Please input your username",
+    "password_required": "Please input your password",
+    "submit": "Login",
+    "register_now": "Register Now",
+    "success": "Login successful",
+    "failed": "Login failed"
+  },
+  "today": {
+    "reading": "Today's Reading",
+    "new_books": "New Books Today",
+    "recommended": "Today's Picks"
+  },
+  "unit": {
+    "words": "words",
+    "books": "books",
+    "minutes": "mins",
+    "hours": "hrs",
+    "days": "days",
+    "chapters": "chapters"
+  },
+  "stats": {
+    "daily_reading": "Daily Reading",
+    "total_reading": "Total Reading",
+    "reading_days": "Reading Days",
+    "reading_streak": "Reading Streak"
+  },
+  "user": {
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "logout": {
+    "success": "Logout successful"
+  }
+} 

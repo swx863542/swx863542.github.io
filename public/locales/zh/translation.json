@@ -1,0 +1,117 @@
+{
+  "welcome": "欢迎使用",
+  "todo": {
+    "input": {
+      "placeholder": "请输入待办事项"
+    },
+    "add": "添加"
+  },
+  "books": {
+    "title": "书名",
+    "author": "作者",
+    "category": "分类",
+    "description": "描述",
+    "status": "状态",
+    "actions": "操作",
+    "read": "阅读",
+    "edit": "编辑",
+    "add": "添加图书",
+    "publish_date": "出版日期",
+    "pages": "页数",
+    "word_count": "字数",
+    "content": "正文内容"
+  },
+  "shelf": {
+    "continue_reading": "继续阅读",
+    "completed": "已读完",
+    "not_started": "未开始"
+  },
+  "mine": {
+    "joined": "加入时间",
+    "total_books": "收藏书籍",
+    "completed_books": "已读完",
+    "reading_books": "正在阅读",
+    "reading_time": "总阅读时长",
+    "reading_stats": "阅读统计",
+    "favorite_category": "最爱分类",
+    "average_daily_reading": "日均阅读",
+    "completion_rate": "完成率",
+    "reading_preference": "阅读偏好分析",
+    "recent_reading_stats": "近期阅读统计",
+    "category_distribution": "类别分布",
+    "reading_words": "阅读字数"
+  },
+  "login": {
+    "title": "登录",
+    "username_placeholder": "请输入用户名",
+    "password_placeholder": "请输入密码",
+    "username_required": "请输入用户名",
+    "password_required": "请输入密码",
+    "submit": "登录",
+    "register_now": "立即注册",
+    "success": "登录成功",
+    "failed": "登录失败"
+  },
+  "booklist": {
+    "all": "全部",
+    "literature": "文学",
+    "science_fiction": "科幻",
+    "biography": "传记",
+    "search_placeholder": "搜索书名或作者",
+    "rating": "评分",
+    "mystery": "悬疑",
+    "romance": "言情",
+    "classic": "经典",
+    "history": "历史",
+    "drama": "戏剧",
+    "dystopian": "反乌托邦",
+    "satire": "讽刺",
+    "all_countries": "全部国家",
+    "country_cn": "中国",
+    "country_us": "美国",
+    "country_uk": "英国",
+    "country_jp": "日本",
+    "country_co": "哥伦比亚",
+    "country_il": "以色列",
+    "country_af": "阿富汗"
+  },
+  "common": {
+    "more": "查看更多",
+    "hot": "热门图书",
+    "new": "新书推荐"
+  },
+  "header": {
+    "search_placeholder": "搜索书名或作者",
+    "login": "登录",
+    "home": "首页",
+    "books": "书库",
+    "shelf": "书架",
+    "mine": "我的"
+  },
+  "today": {
+    "reading": "今日阅读",
+    "new_books": "今日新书",
+    "recommended": "今日推荐"
+  },
+  "unit": {
+    "words": "字",
+    "books": "本",
+    "minutes": "分钟",
+    "hours": "小时",
+    "days": "天",
+    "chapters": "章"
+  },
+  "stats": {
+    "daily_reading": "日均阅读",
+    "total_reading": "累计阅读",
+    "reading_days": "阅读天数",
+    "reading_streak": "连续阅读"
+  },
+  "user": {
+    "profile": "个人中心",
+    "logout": "退出登录"
+  },
+  "logout": {
+    "success": "退出成功"
+  }
+} 

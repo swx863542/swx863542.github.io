@@ -1,0 +1,65 @@
+.listItem {
+  padding: 12px 0;
+}
+
+.listItem:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.statItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.icon {
+  font-size: 24px;
+  color: #8853F8;
+}
+
+.content {
+  flex: 1;
+}
+
+.content h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.content p {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #8853F8;
+}
+
+.content span {
+  color: #666;
+  font-size: 14px;
+}
+
+.content :global(.ant-progress) {
+  margin-bottom: 8px;
+}
+
+.content :global(.ant-progress-bg) {
+  background: #8853F8;
+}
+
+/* 添加悬停效果 */
+.listItem:hover {
+  background-color: #f9f0ff;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .content p {
+    font-size: 18px;
+  }
+  
+  .icon {
+    font-size: 20px;
+  }
+} 

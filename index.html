@@ -1,19 +1,1109 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Your application description" />
-    <title>Vite + React</title>
-    <script type="module" crossorigin src="/assets/index-cf68ba09.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-9cc9e0c7.js">
-    <link rel="modulepreload" crossorigin href="/assets/antd-vendor-fe20938b.js">
-    <link rel="modulepreload" crossorigin href="/assets/chart-vendor-a0a52e68.js">
-    <link rel="stylesheet" href="/assets/index-77262b30.css">
-  </head>
-  <body>
-    <div id="root"></div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /* ==================== CSS 变量主题系统 ==================== */
+        :root {
+            /* 默认主题：紫色（原主题） */
+            --theme-primary: #7030c9;
+            --theme-primary-light: #9b5dd6;
+            --theme-primary-dark: #34007c;
+            --theme-secondary: #ab9bbf;
+            --theme-gradient-start: #b784c9;
+            --theme-gradient-end: #f3eef4;
+            --theme-bg-gradient-start: #f5f7fa;
+            --theme-bg-gradient-end: #c3cfe2;
+            --theme-card-gradient-start: #8b7fb5;
+            --theme-card-gradient-end: #9d8aad;
+        }
     
-  </body>
-</html> 
+        /* 主题1：蓝色海洋 */
+        [data-theme="ocean"] {
+            --theme-primary: #1e88e5;
+            --theme-primary-light: #42a5f5;
+            --theme-primary-dark: #033d80;
+            --theme-secondary: #90caf9;
+            --theme-gradient-start: #64b5f6;
+            --theme-gradient-end: #e3f2fd;
+            --theme-bg-gradient-start: #e1f5fe;
+            --theme-bg-gradient-end: #b3e5fc;
+            --theme-card-gradient-start: #5b8db5;
+            --theme-card-gradient-end: #4d7fa6;
+        }
+    
+        /* 主题2：绿色森林 */
+        [data-theme="forest"] {
+            --theme-primary: #43a047;
+            --theme-primary-light: #66bb6a;
+            --theme-primary-dark: #026407;
+            --theme-secondary: #a5d6a7;
+            --theme-gradient-start: #81c784;
+            --theme-gradient-end: #e8f5e9;
+            --theme-bg-gradient-start: #f1f8e9;
+            --theme-bg-gradient-end: #c5e1a5;
+            --theme-card-gradient-start: #6d9a76;
+            --theme-card-gradient-end: #5f8b68;
+        }
+    
+        /* 主题3：橙色日落 */
+        [data-theme="sunset"] {
+            --theme-primary: #ff6f00;
+            --theme-primary-light: #ff9800;
+            --theme-primary-dark: #722902;
+            --theme-secondary: #ffb74d;
+            --theme-gradient-start: #ffa726;
+            --theme-gradient-end: #fff3e0;
+            --theme-bg-gradient-start: #fff8e1;
+            --theme-bg-gradient-end: #ffe0b2;
+            --theme-card-gradient-start: #c08a55;
+            --theme-card-gradient-end: #b07a4a;
+        }
+    
+        /* 主题4：粉色樱花 */
+        [data-theme="sakura"] {
+            --theme-primary: #ec407a;
+            --theme-primary-light: #f06292;
+            --theme-primary-dark: #660029;
+            --theme-secondary: #f8bbd0;
+            --theme-gradient-start: #f48fb1;
+            --theme-gradient-end: #fce4ec;
+            --theme-bg-gradient-start: #fce4ec;
+            --theme-bg-gradient-end: #f8bbd0;
+            --theme-card-gradient-start: #c07a91;
+            --theme-card-gradient-end: #ad6b82;
+        }
+    
+        /* 主题6：红色热情 */
+        [data-theme="passion"] {
+            --theme-primary: #e53935;
+            --theme-primary-light: #ef5350;
+            --theme-primary-dark: #610000;
+            --theme-secondary: #ef9a9a;
+            --theme-gradient-start: #e57373;
+            --theme-gradient-end: #ffebee;
+            --theme-bg-gradient-start: #ffebee;
+            --theme-bg-gradient-end: #ffcdd2;
+            --theme-card-gradient-start: #c06b6b;
+            --theme-card-gradient-end: #ad5d5d;
+        }
+    
+        /* ==================== 基础样式 ==================== */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            outline-style: none;
+            list-style-type: none;
+        }
+    
+        /* 游戏容器样式 */
+        .game-container {
+            width: 100%;
+            max-width: 805px;
+            margin: 30px auto;
+            padding: 10px;
+        }
+    
+        /* 主题选择器 */
+        .theme-selector {
+            margin-bottom: 10px;
+            max-height: 0;
+            display: none;
+            transition: all 0.3s ease;
+        }
+    
+        .theme-selector.expanded {
+            max-height: 100px;
+            display:block;
+            margin-bottom: 20px;
+            transition: display 0.3s ease;
+        }
+    
+        .theme-selector label {
+            font-weight: bold;
+            color: var(--theme-primary);
+            margin-right: 10px;
+        }
+    
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-left: 5px;
+        }
+    
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+    
+        .theme-btn.active {
+            border-color: #333;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--theme-primary);
+        }
+    
+        .theme-btn[data-theme="purple"] {
+            background: linear-gradient(135deg, #7030c9, #b784c9);
+        }
+    
+        .theme-btn[data-theme="ocean"] {
+            background: linear-gradient(135deg, #1e88e5, #64b5f6);
+        }
+    
+        .theme-btn[data-theme="forest"] {
+            background: linear-gradient(135deg, #43a047, #81c784);
+        }
+    
+        .theme-btn[data-theme="sunset"] {
+            background: linear-gradient(135deg, #ff6f00, #ffa726);
+        }
+    
+        .theme-btn[data-theme="sakura"] {
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
+        }
+    
+        .theme-btn[data-theme="passion"] {
+            background: linear-gradient(135deg, #e53935, #e57373);
+        }
+    
+        /* 主控制栏 - 难度、时间、更多选项在同一行 */
+        .main-control-bar {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            color: var(--theme-primary);
+            font-size: 18px;
+        }
+    
+        /* 游戏控制面板 */
+        .game-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    
+        .control-group label {
+            font-weight: bold;
+            color: var(--theme-primary);
+            font-size: 16px;
+        }
+    
+        /* 速度控制组折叠 */
+        .control-group.speed-control {
+            max-height: 0;
+            overflow: hidden;
+            display: none;
+            transition: all 0.3s ease;
+        }
+    
+        .control-group.speed-control.expanded {
+            max-height: 50px;
+            display: block;
+        }
+    
+        .control-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--theme-primary);
+            border-radius: 20px;
+            background: #fff;
+            color: var(--theme-primary);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+    
+        .control-btn:hover {
+            background: var(--theme-primary);
+            color: #fff;
+        }
+    
+        .control-btn.active {
+            background: var(--theme-primary);
+            color: #fff;
+        }
+    
+        /* 游戏信息显示 */
+        .game-info {
+            color: var(--theme-primary);
+            max-height: 0;
+            overflow: hidden;
+            display: none;
+            transition: all 0.3s ease;
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .game-text{
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .game-info span+span{
+            margin-left: 10px;
+        }
+    
+        .game-info.expanded {
+            max-height: 100px;
+            display: block;
+            margin: 10px 0;
+        }
+     
+    
+        /* 展开/折叠按钮 */
+        .toggle-options {
+            display: flex;
+            align-items: center;
+        }
+    
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--theme-primary);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+            white-space: nowrap;
+        }
+    
+        .toggle-btn:hover {
+            color: var(--theme-primary-dark);
+        }
+    
+        .toggle-btn i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+    
+        .toggle-btn.expanded i {
+            transform: rotate(180deg);
+        }
+    
+        /* 游戏板容器 */
+        .game-box {
+            width: 100%;
+            /* max-width: 785px; */
+            /* max-width: 100%; */
+            margin: 0 auto;
+            border: 3px solid var(--theme-secondary);
+            border-radius: 30px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--theme-bg-gradient-start) 0%, var(--theme-bg-gradient-end) 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+    
+        /* 记忆卡片网格 */
+        .memory-grid {
+            display: grid;
+            margin: 0 auto;
+        }
+    
+        /* 4x4网格 */
+        .memory-grid.grid-4x4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    
+        /* 6x4网格 */
+        .memory-grid.grid-6x4 {
+            grid-template-columns: repeat(6, 1fr);
+        }
+    
+        /* 卡片样式 */
+        .memory-card {
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+    
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+    
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+    
+        .memory-card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+    
+        .memory-card.matched {
+            pointer-events: none;
+        }
+    
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    
+        /* 卡片正面渐变背景 */
+        /* .card-front {
+            background: var(--theme-primary-dark);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3);
+            width: 185px;
+            height: 185px;
+        } */
+    
+        .card-back {
+            background: #fff;
+            transform: rotateY(180deg);
+        }
+    
+        .card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    
+        /* 匹配成功动画 */
+        .memory-card.matched .card-inner {
+            animation: matchPulse 0.6s ease;
+        }
+    
+        @keyframes matchPulse {
+    
+            0%,
+            100% {
+                transform: rotateY(180deg) scale(1);
+            }
+    
+            50% {
+                transform: rotateY(180deg) scale(1.1);
+            }
+        }
+    
+        /* 匹配后的透明效果 */
+        .memory-card.matched .card-back {
+            opacity: 0.6;
+        }
+    
+        /* 开始游戏遮罩 */
+        .play-mask {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 27px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    
+        .play-mask.hidden {
+            display: none;
+        }
+    
+        .play-button {
+            width: 260px;
+            height: 60px;
+            line-height: 60px;
+            border: 3px solid var(--theme-primary);
+            border-radius: 30px;
+            background-color: #fff;
+            text-align: center;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--theme-primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        .play-button:hover {
+            background: var(--theme-primary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        /* 胜利提示 */
+        .victory-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 40px;
+    
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+    
+        .victory-message.show {
+            display: block;
+            animation: victoryAppear 0.5s ease;
+        }
+    
+        @keyframes victoryAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+    
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    
+        .victory-message h2 {
+            color: var(--theme-primary);
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+    
+        .victory-message p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    
+        /* 关闭按钮 */
+        .victory-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+    
+        .victory-close:hover {
+            opacity: 1;
+        }
+    
+        .victory-close:before,
+        .victory-close:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 2px;
+            background: #333;
+        }
+    
+        .victory-close:before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+    
+        .victory-close:after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+    
+        .victory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            cursor: pointer;
+        }
+    
+        .victory-overlay.show {
+            display: block;
+        }
+    
+        
+        /* 响应式设计 - 手机端 */
+        @media (max-width: 767px) {
+            /* 主题按钮缩小 */
+            .theme-btn {
+                width: 20px;
+                height: 20px;
+            }
+    
+            /* 隐藏更多选项按钮 */
+            .toggle-options {
+                display: none;
+            }
+    
+            /* 默认全部展开 */
+            .theme-selector {
+                max-height: 100px;
+                display: block;
+            }
+    
+            .control-group.speed-control {
+                max-height: 50px;
+                display: block;
+            }
+    
+            .game-info {
+                max-height: 100px;
+                display: block;
+                margin: 10px 0;
+            }
+    
+            .control-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+    
+            .victory-message h2{
+                font-size: 26px;
+            }
+            .victory-message p{
+                font-size: 14px;
+            }
+        }
+    
+    </style>
+    <!-- 游戏板 -->
+    <div class="game-container">
+    
+        <!-- 主题选择器 -->
+        <div class="theme-selector" id="themeSelector">
+            <label>主题：</label>
+            <button class="theme-btn active" data-theme="purple" title="紫色梦幻"></button>
+            <button class="theme-btn" data-theme="ocean" title="蓝色海洋"></button>
+            <button class="theme-btn" data-theme="forest" title="绿色森林"></button>
+            <button class="theme-btn" data-theme="sunset" title="橙色日落"></button>
+            <button class="theme-btn" data-theme="sakura" title="粉色樱花"></button>
+            <button class="theme-btn" data-theme="passion" title="红色热情"></button>
+        </div>
+    
+        <!-- 速度控制（折叠） -->
+        <div class="game-controls">
+            <div class="control-group speed-control" id="speedControl">
+                <label>速度：</label>
+                <button class="control-btn" data-speed="fast">快速</button>
+                <button class="control-btn active" data-speed="normal">标准</button>
+                <button class="control-btn" data-speed="slow">慢速</button>
+            </div>
+        </div>
+    
+        <!-- 游戏信息显示（移动和配对） -->
+        <div class="game-info" id="gameInfo">
+            <span>移动：<span id="moves">0</span></span>
+            <span>配对：<span id="pairs">0</span> / <span id="totalPairs">8</span></span>
+        </div>
+    
+        <!-- 主控制栏：难度、时间、更多选项 -->
+        <div class="main-control-bar">
+            <!-- 时间显示 -->
+            <span id="timer" class="game-text">00:00:00</span>
+    
+            <!-- 难度控制 -->
+            <!-- <div>
+                <button class="control-btn active" data-difficulty="easy">简单 (4×4)</button>
+                <button class="control-btn" data-difficulty="hard">困难 (6×4)</button>
+            </div> -->
+    
+            <!-- 展开/折叠更多选项按钮 -->
+            <div class="toggle-options">
+                <button class="toggle-btn" id="toggleOptions">
+                    更多选项
+                </button>
+            </div>
+        </div>
+    
+        <div class="game-box">
+            <div class="memory-grid grid-4x4" id="memoryGrid"></div>
+            <div class="play-mask" id="playMask">
+                <div class="play-button" id="playButton">
+                    <span>开始游戏</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 胜利提示 -->
+    <div class="victory-overlay" id="victoryOverlay"></div>
+    <div class="victory-message" id="victoryMessage">
+        <div class="victory-close" id="victoryClose"></div>
+        <h2>恭喜你！</h2>
+        <p>你成功找到了所有配对！</p>
+        <p>用时：<span id="finalTime"></span></p>
+        <p>移动次数：<span id="finalMoves"></span></p>
+    </div>
+    
+    <script src="https://www.genscript.com/gsfiles/jscript/newsite/jquery.min.js"></script>
+    <script>
+        'use strict';
+    
+        /**
+         * 记忆卡片游戏类
+         */
+        class MemoryGame {
+            constructor() {
+                // 游戏配置
+                this.difficulty = 'easy'; // easy: 4x4, hard: 6x4
+                this.speed = 'normal'; // fast: 300ms, normal: 600ms, slow: 1000ms
+                this.gridSize = '4x4';
+                this.totalPairs = 8;
+                this.currentTheme = localStorage.getItem('memoryGameTheme') || 'purple'; // 当前主题
+    
+                // 游戏状态
+                this.isPlaying = false;
+                this.firstCard = null;
+                this.secondCard = null;
+                this.lockBoard = false;
+                this.matchedPairs = 0;
+                this.moves = 0;
+                this.timer = null;
+                this.seconds = 0;
+                this.minutes = 0;
+                this.hours = 0;
+    
+                // DOM元素
+                this.$grid = $('#memoryGrid');
+                this.$playMask = $('#playMask');
+                this.$playButton = $('#playButton');
+                this.$timer = $('#timer');
+                this.$moves = $('#moves');
+                this.$pairs = $('#pairs');
+                this.$totalPairs = $('#totalPairs');
+                this.$victoryOverlay = $('#victoryOverlay');
+                this.$victoryMessage = $('#victoryMessage');
+                this.$victoryClose = $('#victoryClose');
+                this.$body = $('body');
+                this.$toggleOptions = $('#toggleOptions');
+                this.$themeSelector = $('#themeSelector');
+                this.$speedControl = $('#speedControl');
+                this.$gameInfo = $('#gameInfo');
+    
+                // 折叠状态
+                this.optionsExpanded = false;
+    
+                this.init();
+            }
+    
+            /**
+             * 初始化游戏
+             */
+            init() {
+                this.bindEvents();
+                this.generateCards();
+            }
+    
+            /**
+             * 绑定事件
+             */
+            bindEvents() {
+                // 开始游戏按钮
+                this.$playButton.on('click', () => this.startGame());
+    
+                // 关闭胜利弹框
+                this.$victoryClose.on('click', () => this.closeVictoryMessage());
+                this.$victoryOverlay.on('click', () => this.closeVictoryMessage());
+    
+                // 展开/折叠更多选项
+                this.$toggleOptions.on('click', () => this.toggleOptions());
+    
+                // 主题选择
+                $('.theme-btn').on('click', (e) => {
+                    const $btn = $(e.currentTarget);
+                    const theme = $btn.data('theme');
+    
+                    $('.theme-btn').removeClass('active');
+                    $btn.addClass('active');
+    
+                    this.changeTheme(theme);
+                });
+    
+                // 难度选择
+                $('[data-difficulty]').on('click', (e) => {
+                    const $btn = $(e.currentTarget);
+                    const difficulty = $btn.data('difficulty');
+    
+                    $('[data-difficulty]').removeClass('active');
+                    $btn.addClass('active');
+    
+                    this.difficulty = difficulty;
+                    if (difficulty === 'easy') {
+                        this.gridSize = '4x4';
+                        this.totalPairs = 8;
+                    } else {
+                        this.gridSize = '6x4';
+                        this.totalPairs = 12;
+                    }
+                    this.$totalPairs.text(this.totalPairs);
+    
+                    // 更新网格类名
+                    this.$grid.removeClass('grid-4x4 grid-6x4')
+                        .addClass(`grid-${this.gridSize}`);
+    
+                    this.resetGame();
+                    this.generateCards();
+                });
+    
+                // 速度选择
+                $('[data-speed]').on('click', (e) => {
+                    const $btn = $(e.currentTarget);
+                    const speed = $btn.data('speed');
+    
+                    $('[data-speed]').removeClass('active');
+                    $btn.addClass('active');
+    
+                    this.speed = speed;
+                });
+    
+                // 卡片点击事件（使用事件委托）
+                this.$grid.on('click', '.memory-card:not(.matched)', (e) => {
+                    if (!this.isPlaying) return;
+                    this.flipCard($(e.currentTarget));
+                });
+            }
+    
+            /**
+             * 生成卡片
+             */
+            generateCards() {
+                const cardsData = this.generateCardsData();
+                console.log(cardsData, 'cardsData')
+                const shuffledCards = this.shuffleArray(cardsData);
+    
+                this.$grid.empty();
+    
+                shuffledCards.forEach((cardValue, index) => {
+                    const $card = this.createCardElement(cardValue, index);
+                    this.$grid.append($card);
+                });
+            }
+    
+            /**
+             * 生成卡片数据
+             */
+            generateCardsData() {
+                const cards = [];
+                const imageCount = this.totalPairs;
+    
+                // 生成配对的卡片
+                for (let i = 0; i < imageCount; i++) {
+                    cards.push(i, i);
+                }
+    
+                return cards;
+            }
+    
+            /**
+             * 洗牌算法（Fisher-Yates）
+             */
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+    
+            /**
+             * 创建卡片元素
+             */
+            createCardElement(value, index) {
+                // 直接使用 CSS 变量，不需要动态生成 style
+                return $(`
+                    <div class="memory-card" data-value="${value}" data-index="${index}">
+                        <div class="card-inner">
+                            <div class="card-face card-front">
+                                <img src="https://www.genscript.com/gsimages/memory/backcard.png" alt="Card Back">
+                            </div>
+                            <div class="card-face card-back">
+                                <img src="${value}.jpg" alt="Card ${value}">
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+    
+            /**
+             * 开始游戏
+             */
+            startGame() {
+                this.isPlaying = true;
+                this.$playMask.addClass('hidden');
+                this.startTimer();
+            }
+    
+            /**
+             * 翻转卡片
+             */
+            flipCard($card) {
+                if (this.lockBoard) return;
+                if ($card.hasClass('flipped') || $card.hasClass('matched')) return;
+                if ($card.is(this.firstCard)) return;
+    
+                $card.addClass('flipped');
+    
+                if (!this.firstCard) {
+                    // 第一张卡片
+                    this.firstCard = $card;
+                } else {
+                    // 第二张卡片
+                    this.secondCard = $card;
+                    this.moves++;
+                    this.$moves.text(this.moves);
+    
+                    this.checkForMatch();
+                }
+            }
+    
+            /**
+             * 检查是否匹配
+             */
+            checkForMatch() {
+                const firstValue = this.firstCard.data('value');
+                const secondValue = this.secondCard.data('value');
+    
+                if (firstValue === secondValue) {
+                    this.handleMatch();
+                } else {
+                    this.handleMismatch();
+                }
+            }
+    
+            /**
+             * 处理匹配成功
+             */
+            handleMatch() {
+                this.firstCard.addClass('matched');
+                this.secondCard.addClass('matched');
+    
+                this.matchedPairs++;
+                this.$pairs.text(this.matchedPairs);
+    
+                this.resetBoard();
+    
+                // 检查是否完成游戏
+                if (this.matchedPairs === this.totalPairs) {
+                    setTimeout(() => this.gameComplete(), 500);
+                }
+            }
+    
+            /**
+             * 处理匹配失败
+             */
+            handleMismatch() {
+                this.lockBoard = true;
+    
+                const delay = this.getFlipDelay();
+    
+                setTimeout(() => {
+                    this.firstCard.removeClass('flipped');
+                    this.secondCard.removeClass('flipped');
+                    this.resetBoard();
+                }, delay);
+            }
+    
+            /**
+             * 获取翻转延迟时间
+             */
+            getFlipDelay() {
+                const delays = {
+                    fast: 300,
+                    normal: 600,
+                    slow: 1000
+                };
+                return delays[this.speed] || 600;
+            }
+    
+            /**
+             * 重置棋盘状态
+             */
+            resetBoard() {
+                this.firstCard = null;
+                this.secondCard = null;
+                this.lockBoard = false;
+            }
+    
+            /**
+             * 开始计时器
+             */
+            startTimer() {
+                this.timer = setInterval(() => {
+                    this.seconds++;
+                    if (this.seconds >= 60) {
+                        this.minutes++;
+                        this.seconds = 0;
+                    }
+                    if (this.minutes >= 60) {
+                        this.hours++;
+                        this.minutes = 0;
+                    }
+                    this.updateTimerDisplay();
+                }, 1000);
+            }
+    
+            /**
+             * 停止计时器
+             */
+            stopTimer() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+    
+            /**
+             * 更新计时器显示
+             */
+            updateTimerDisplay() {
+                const h = String(this.hours).padStart(2, '0');
+                const m = String(this.minutes).padStart(2, '0');
+                const s = String(this.seconds).padStart(2, '0');
+                this.$timer.text(`${h}:${m}:${s}`);
+            }
+    
+            /**
+             * 游戏完成
+             */
+            gameComplete() {
+                this.isPlaying = false;
+                this.stopTimer();
+    
+                // 显示胜利信息
+                $('#finalTime').text(this.$timer.text());
+                $('#finalMoves').text(this.moves);
+                this.$victoryOverlay.addClass('show');
+                this.$victoryMessage.addClass('show');
+            }
+    
+            /**
+             * 关闭胜利提示弹框
+             */
+            closeVictoryMessage() {
+                this.$victoryOverlay.removeClass('show');
+                this.$victoryMessage.removeClass('show');
+            }
+    
+            /**
+             * 展开/折叠更多选项
+             */
+            toggleOptions() {
+                this.optionsExpanded = !this.optionsExpanded;
+    
+                if (this.optionsExpanded) {
+                    this.$themeSelector.addClass('expanded');
+                    this.$speedControl.addClass('expanded');
+                    this.$gameInfo.addClass('expanded');
+                    this.$toggleOptions.addClass('expanded');
+                    this.$toggleOptions.html('收起选项 <i class="fa fa-angle-down"></i>');
+                } else {
+                    this.$themeSelector.removeClass('expanded');
+                    this.$speedControl.removeClass('expanded');
+                    this.$gameInfo.removeClass('expanded');
+                    this.$toggleOptions.removeClass('expanded');
+                    this.$toggleOptions.html('更多选项 <i class="fa fa-angle-down"></i>');
+                }
+            }
+    
+            /**
+             * 切换主题
+             */
+            changeTheme(theme) {
+                this.currentTheme = theme;
+    
+                // 重置背景颜色，以便根据新主题重新生成
+                this.bgColor = '';
+    
+                // 移除所有主题类
+                this.$body.removeAttr('data-theme');
+    
+                // 如果不是默认主题，添加主题属性
+                if (theme !== 'purple') {
+                    this.$body.attr('data-theme', theme);
+                }
+    
+                // 保存主题到本地存储
+                try {
+                    localStorage.setItem('memoryGameTheme', theme);
+                } catch (e) {
+                    console.log('无法保存主题设置');
+                }
+            }
+    
+            /**
+             * 加载保存的主题
+             */
+            loadSavedTheme() {
+                try {
+                    const savedTheme = localStorage.getItem('memoryGameTheme');
+                    if (savedTheme) {
+                        this.currentTheme = savedTheme;
+                        this.changeTheme(savedTheme);
+    
+                        // 更新主题按钮状态
+                        $('.theme-btn').removeClass('active');
+                        $(`.theme-btn[data-theme="${savedTheme}"]`).addClass('active');
+                    }
+                } catch (e) {
+                    console.log('无法加载主题设置');
+                }
+            }
+    
+            /**
+             * 重置游戏
+             */
+            resetGame() {
+                this.isPlaying = false;
+                this.stopTimer();
+    
+                this.firstCard = null;
+                this.secondCard = null;
+                this.lockBoard = false;
+                this.matchedPairs = 0;
+                this.moves = 0;
+                this.seconds = 0;
+                this.minutes = 0;
+                this.hours = 0;
+    
+                this.$timer.text('00:00:00');
+                this.$moves.text('0');
+                this.$pairs.text('0');
+                this.$playMask.removeClass('hidden');
+                this.$victoryOverlay.removeClass('show');
+                this.$victoryMessage.removeClass('show');
+            }
+        }
+    
+        // 初始化游戏
+        $(document).ready(() => {
+            const game = new MemoryGame();
+            game.loadSavedTheme(); // 加载保存的主题
+        });
+    </script>
+</body>
+</html>
